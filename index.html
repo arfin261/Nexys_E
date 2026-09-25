@@ -65,7 +65,7 @@
                     const data = await response.json();
                     if(data.success) {
                         document.getElementById('user-balance').innerText = data.new_balance.toFixed(2) + " ৳";
-                        tg.showAlert("অভিনন্দন! আপনার ব্যালেন্সে ০.৫০ ৳ যোগ হয়েছে এবং ডাটাবেজে সেভ হয়েছে।");
+                        tg.showAlert("অভিনন্দন! আপনার ব্যালেন্সে ০.০৫০ ৳ যোগ হয়েছে এবং ডাটাবেজে সেভ হয়েছে।");
                     }
                 } catch (error) {
                     tg.showAlert("ব্যালেন্স ডাটাবেজে আপডেট করতে সমস্যা হয়েছে।");
