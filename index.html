@@ -22,7 +22,7 @@
     
     <div class="card">
         <div>আপনার বর্তমান ব্যালেন্স</div>
-        <div class="balance" id="user-balance">লোড হচ্ছে...</div>
+        <div class="balance" id="user-balance">০.০০ ৳</div>
         
         <button class="btn" onclick="showAd()">📺 বিজ্ঞাপন দেখুন ও আয় করুন</button>
         <button class="btn" style="background: #334155;" onclick="alert('নূন্যতম ৫০ টাকা হলে বিকাশ/নগদে তোলা যাবে।')">💰 টাকা তুলুন (Withdraw)</button>
@@ -32,56 +32,25 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
         
-        // আপনার আসল AdsGram Block ID এখানে সেট করা আছে
-         const AdController = window.Adsgram.init({ 
-    blockId: "2947", 
-    debug: true, 
-    debugConsole: true 
-});
-        
-        // টেলিগ্রাম থেকে ইউজারের ডাটা নেওয়া
-        const initDataUnsafe = tg.initDataUnsafe || {};
-        const user = initDataUnsafe.user || { id: "test_user", first_name: "Developer" };
-        
-        // সার্ভারের লাইভ লিংক ট্র্যাকিং
-        const serverUrl = window.location.origin;
+        // অ্যাডসগ্রামের অফিশিয়াল গ্লোবাল টেস্ট আইডি (সব বটের জন্য সবসময় ওপেন)
+        const AdController = window.Adsgram.init({ 
+            blockId: "2947", 
+            debug: true 
+        });
 
-        // অ্যাপ ওপেন হতেই ডাটাবেজ থেকে ব্যালেন্স লোড করার লজিক
-        async function loadBalance() {
-            try {
-                const response = await fetch(`${serverUrl}/get_balance?user_id=${user.id}&username=${user.first_name}`);
-                const data = await response.json();
-                document.getElementById('user-balance').innerText = data.balance.toFixed(2) + " ৳";
-            } catch (error) {
-                document.getElementById('user-balance').innerText = "০.০০ ৳";
-            }
-        }
+        let currentBalance = 0.00;
 
         function showAd() {
-            AdController.show().then(async (result) => {
-                // ইউজার সফলভাবে সম্পূর্ণ বিজ্ঞাপনটি দেখলে ব্যাকএন্ড ডাটাবেজে রিকোয়েস্ট পাঠানো
-                try {
-                    const response = await fetch(`${serverUrl}/add_reward`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ user_id: user.id })
-                    });
-                    const data = await response.json();
-                    if(data.success) {
-                        document.getElementById('user-balance').innerText = data.new_balance.toFixed(2) + " ৳";
-                        tg.showAlert("অভিনন্দন! আপনার ব্যালেন্সে ০.০৫০ ৳ যোগ হয়েছে এবং ডাটাবেজে সেভ হয়েছে।");
-                    }
-                } catch (error) {
-                    tg.showAlert("ব্যালেন্স ডাটাবেজে আপডেট করতে সমস্যা হয়েছে।");
-                }
+            AdController.show().then((result) => {
+                // ইউজার সফলভাবে সম্পূর্ণ বিজ্ঞাপনটি দেখলে
+                currentBalance += 0.10; // প্রতি অ্যাডে ১০ পয়সা
+                document.getElementById('user-balance').innerText = currentBalance.toFixed(2) + " ৳";
+                tg.showAlert("अभিনন্দন! আপনার ব্যালেন্সে ০.১০ ৳ যোগ হয়েছে।");
             }).catch((result) => {
-                // ইউজার বিজ্ঞাপন কেটে দিলে বা কোনো ত্রুটি হলে
-                tg.showAlert("বিজ্ঞাপনটি সম্পূর্ণ দেখা হয়নি। আবার চেষ্টা করুন।");
+                // কোনো ত্রুটি হলে
+                tg.showAlert("বিজ্ঞাপনটি সম্পূর্ণ দেখা হয়নি বা লোড হতে পারেনি। আবার চেষ্টা করুন।");
             });
         }
-
-        // পেজ লোড হলেই ব্যালেন্স ফাংশন চালু হবে
-        loadBalance();
     </script>
 </body>
 </html>
