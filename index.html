@@ -33,7 +33,11 @@
         tg.expand();
         
         // আপনার আসল AdsGram Block ID এখানে সেট করা আছে
-        const AdController = window.Adsgram.init({ blockId: "47145" });
+         const AdController = window.Adsgram.init({ 
+    blockId: "47145", 
+    debug: true, 
+    debugConsole: true 
+});
         
         // টেলিগ্রাম থেকে ইউজারের ডাটা নেওয়া
         const initDataUnsafe = tg.initDataUnsafe || {};
