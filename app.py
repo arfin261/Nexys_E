@@ -50,7 +50,7 @@ def add_reward():
     """বিজ্ঞাপন দেখার পর ব্যালেন্স যোগ করার ফাংশন"""
     data = request.json
     user_id = data.get('user_id')
-    amount = 0.50  # প্রতি বিজ্ঞাপনে ৫০ পয়সা জমা হবে
+    amount = 0.050  # প্রতি বিজ্ঞাপনে ০৫০ পয়সা জমা হবে
 
     if not user_id:
         return jsonify({"error": "Missing user_id"}), 400
