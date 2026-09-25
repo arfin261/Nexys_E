@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexy_E - Earn Money</title>
+    <!-- টেলিগ্রাম ও অ্যাডসগ্রামের অফিশিয়াল স্ক্রিপ্ট -->
+    <script src="https://telegram.org"></script>
+    <script src="https://adsgram.ai"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #0f172a; color: white; padding: 20px; }
+        .logo-text { font-size: 28px; font-weight: bold; color: #38bdf8; text-shadow: 0 0 10px #38bdf8; margin-bottom: 20px; }
+        .card { background: #1e293b; border: 1px solid #334155; padding: 25px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .balance { font-size: 32px; color: #4ade80; font-weight: bold; margin: 15px 0; }
+        .btn { background: linear-gradient(135deg, #38bdf8, #0369a1); color: white; border: none; padding: 14px 28px; font-size: 16px; font-weight: bold; border-radius: 12px; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 15px; }
+        .btn:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+
+    <div class="logo-text">NEXY_E</div>
+    
+    <div class="card">
+        <div>আপনার বর্তমান ব্যালেন্স</div>
+        <div class="balance" id="user-balance">০.০০ ৳</div>
+        
+        <button class="btn" onclick="showAd()">📺 বিজ্ঞাপন দেখুন ও আয় করুন</button>
+        <button class="btn" style="background: #334155;" onclick="alert('নূন্যতম ৫০ টাকা হলে বিকাশ/নগদে তোলা যাবে।')">💰 টাকা তুলুন (Withdraw)</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // অ্যাপটি পুরো স্ক্রিন জুড়ে ওপেন হবে
+        
+        // AdsGram বিজ্ঞাপনের ব্লক আইডি (অ্যাকাউন্ট খোলার পর এখানে আপনার নিজের আইডি বসাবেন)
+        const AdController = window.Adsgram.init({ blockId: "YOUR_ADSGRAM_BLOCK_ID" });
+
+        let currentBalance = 0.00;
+
+        function showAd() {
+            AdController.show().then((result) => {
+                // ইউজার সফলভাবে সম্পূর্ণ বিজ্ঞাপনটি দেখলে
+                currentBalance += 0.50; // প্রতি অ্যাডে ৫০ পয়সা (আপনার ইচ্ছেমতো পরিবর্তন করতে পারেন)
+                document.getElementById('user-balance').innerText = currentBalance.toFixed(2) + " ৳";
+                tg.showAlert("অভিনন্দন! আপনার ব্যালেন্সে ০.৫০ ৳ যোগ হয়েছে।");
+            }).catch((result) => {
+                // ইউজার বিজ্ঞাপন কেটে দিলে বা কোনো ত্রুটি হলে
+                tg.showAlert("বিজ্ঞাপনটি সম্পূর্ণ দেখা হয়নি। আবার চেষ্টা করুন।");
+            });
+        }
+    </script>
+</body>
+</html>
